@@ -43,6 +43,14 @@ CREATE TABLE IF NOT EXISTS `battles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
+-- Dumping structure for table capcomkddi.battles
+CREATE TABLE IF NOT EXISTS `dialplanservice` (
+    `capcomId` VARCHAR(6) NOT NULL,
+    `phonenumber` VARCHAR(128) NOT NULL,
+    `currentIP` VARCHAR(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Data exporting was unselected.
 -- Dumping structure for table capcomkddi.gamedata
 CREATE TABLE IF NOT EXISTS `gamedata` (
   `capcomId` varchar(6) NOT NULL,
