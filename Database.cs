@@ -372,5 +372,33 @@ namespace FMaj.CapcomDirectServer
 
             return null;
         }
+        
+        public static void storeUserIP(string capcomId, Client client)
+        {
+            MySqlCommand cmd;
+
+            using (MySqlConnection conn = new MySqlConnection(String.Format("Server={0}; Port={1}; Database={2}; UID={3}; Password={4}", HOST, PORT, DB_NAME, USERNAME, PASSWORD)))
+            {
+                try
+                {
+                    conn.Open();
+                    string query = @"
+                                INSERT INTO dialplanservice (capcomId, phonenumber, currentIP) 
+                                VALUES (@capcomIDs, (SELECT telephone FROM accounts WHERE capcomId=@capcomIDs), @currentIPs);";
+                    cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@capcomIDs", capcomId);
+                    cmd.Parameters.AddWithValue("@currentIPs", client.GetAddress());
+                    cmd.ExecuteNonQuery();
+                }
+                catch (MySqlException e)
+                {
+                    Program.Log.Error(e.ToString());
+                }
+                finally
+                {
+                    conn.Dispose();
+                }
+            }
+        }
     }
 }
