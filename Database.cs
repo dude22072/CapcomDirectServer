@@ -384,7 +384,8 @@ namespace FMaj.CapcomDirectServer
                     conn.Open();
                     string query = @"
                                 INSERT INTO dialplanservice (capcomId, phonenumber, currentIP) 
-                                VALUES (@capcomIDs, (SELECT telephone FROM accounts WHERE capcomId=@capcomIDs), @currentIPs);";
+                                VALUES (@capcomIDs, (SELECT telephone FROM accounts WHERE capcomId=@capcomIDs), @currentIPs)
+                                ON DUPLICATE KEY UPDATE currentIP=@currentIPs;";
                     cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@capcomIDs", capcomId);
                     cmd.Parameters.AddWithValue("@currentIPs", client.GetAddress());
